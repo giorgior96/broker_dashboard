@@ -34,4 +34,6 @@ ENV PORT=8000
 
 # Start command
 # Use shell form to allow variable expansion for PORT (default 8000)
-CMD sh -c "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+# Start command
+# We change directory to backend so that 'import service' works natively as it does locally
+CMD sh -c "cd backend && uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"
