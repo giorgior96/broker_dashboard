@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - API_TOKEN=Bearer 4b84405e-5034-42d2-aac3-6a6275c826d1
+    restart: unless-stopped

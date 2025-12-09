@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# Logs
+*.log
+
+# System
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
