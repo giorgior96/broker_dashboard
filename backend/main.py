@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from service import get_cached_boats, start_background_sync, sync_state, calculate_stats, get_boat_details
 import logging
 import os
@@ -77,7 +78,6 @@ if os.path.exists(frontend_dist):
         # Check if file exists in dist (e.g. favicon.ico)
         possible_file = os.path.join(frontend_dist, full_path)
         if os.path.exists(possible_file) and os.path.isfile(possible_file):
-             from fastapi.responses import FileResponse
              return FileResponse(possible_file)
              
         # Fallback to index.html
