@@ -109,12 +109,39 @@ def fetch_worker():
         sync_state.set_boats(final_list)
         logger.info(f"Sync complete. Total boats: {len(final_list)}")
         
+        # Save to cache file
+        try:
+            import json
+            import os
+            cache_path = os.path.join(os.path.dirname(__file__), "boats_cache.json")
+            with open(cache_path, "w") as f:
+                json.dump(final_list, f)
+            logger.info(f"Cached data saved to {cache_path}")
+        except Exception as e:
+            logger.error(f"Failed to save cache: {e}")
+
     except Exception as e:
         logger.error(f"Sync failed: {e}")
     finally:
         sync_state.set_loading(False)
 
-def start_background_sync():
+def start_background_sync(initial=False):
+    # If initial, try loading from cache first
+    if initial:
+        try:
+            import json
+            import os
+            cache_path = os.path.join(os.path.dirname(__file__), "boats_cache.json")
+            if os.path.exists(cache_path):
+                logger.info(f"Loading from cache: {cache_path}")
+                with open(cache_path, "r") as f:
+                    cached_boats = json.load(f)
+                    sync_state.set_boats(cached_boats)
+                    sync_state.update_progress(len(cached_boats), len(cached_boats))
+                logger.info("Loaded initial data from cache.")
+        except Exception as e:
+            logger.error(f"Failed to load cache: {e}")
+
     thread = threading.Thread(target=fetch_worker)
     thread.daemon = True
     thread.start()

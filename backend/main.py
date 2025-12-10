@@ -22,7 +22,7 @@ logger = logging.getLogger("uvicorn")
 @app.on_event("startup")
 async def startup_event():
     logger.info("Starting up... Triggering initial sync.")
-    start_background_sync()
+    start_background_sync(initial=True)
 
 @app.get("/api/boats")
 def get_boats(refresh: bool = False):
